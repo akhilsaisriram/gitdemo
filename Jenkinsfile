@@ -51,14 +51,5 @@ pipeline {
         }
     }
 
-    post {
-        always {
-        echo 'Cleaning up...'
-        // Stop running containers (if any)
-        sh 'docker ps -q | xargs docker stop'
-        
-        // Clean up unused Docker resources
-        sh 'docker system prune -f'  // Use -f to force prune without confirmation
-      }
-    }
+
 }
