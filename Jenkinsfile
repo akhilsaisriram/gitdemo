@@ -17,21 +17,12 @@ pipeline {
                 }
             }
         }
-
-stage('Stop Services Using Port 80') {
+stage('Stop All Containers') {
     steps {
         script {
-            echo 'Stopping any service using port 80...'
-            sh '''#!/bin/bash
-            # Check if any container is using port 80 and remove it
-            CONTAINER_ID=$(sudo lsof -t -i :80)
-            if [ -n "$CONTAINER_ID" ]; then
-                sudo docker rm -f $CONTAINER_ID
-                echo "Stopped the container using port 80"
-            else
-                echo "No container running on port 80"
-            fi
-            '''
+            echo 'Stopping all running containers...'
+            // Stop all running containers
+            sh 'docker stop $(docker ps -q)'
         }
     }
 }
