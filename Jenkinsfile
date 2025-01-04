@@ -18,6 +18,18 @@ pipeline {
             }
         }
 
+        stage('Stop Services Using Port 80') {
+            steps {
+                script {
+                    echo 'Stopping any service using port 80...'
+                    // Find processes using port 80 and stop them
+                    sh '''#!/bin/bash
+                    sudo lsof -t -i :80 | xargs sudo kill -9
+                    '''
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
