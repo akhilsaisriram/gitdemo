@@ -13,10 +13,7 @@ pipeline {
                 script {
                     // Install dependencies, if any
                     echo 'Installing dependencies...'
-                    sh 'sudo apt-get update'
-                    sh 'sudo apt-get install -y docker.io'
-                    sh 'sudo systemctl enable docker'
-                    sh 'sudo systemctl start docker'
+              '
                     sh 'docker --version' // Verify Docker installation
                 }
             }
