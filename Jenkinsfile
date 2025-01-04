@@ -13,7 +13,6 @@ pipeline {
                 script {
                     // Install dependencies, if any
                     echo 'Installing dependencies...'
-              '
                     sh 'docker --version' // Verify Docker installation
                 }
             }
