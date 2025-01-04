@@ -17,16 +17,16 @@ pipeline {
                 }
             }
         }
-stage('Stop All Containers') {
-    steps {
-        script {
-            echo 'Stopping all running containers...'
-            // Stop all running containers
-            sh 'docker stop $(docker ps -q)'
-        }
-    }
-}
 
+        stage('Stop All Containers') {
+            steps {
+                script {
+                    echo 'Stopping all running containers...'
+                    // Stop all running containers
+                    sh 'docker stop $(docker ps -q)'
+                }
+            }
+        }
 
         stage('Build') {
             steps {
@@ -48,6 +48,4 @@ stage('Stop All Containers') {
             }
         }
     }
-
-
 }
