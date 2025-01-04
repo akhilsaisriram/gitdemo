@@ -1,0 +1,62 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .todo-list { list-style-type: none; padding: 0; }
+        .todo-list li { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
+        .todo-list li button { background-color: red; color: white; border: none; padding: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>To-Do App</h1>
+    <input id="taskInput" type="text" placeholder="New Task" />
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList" class="todo-list"></ul>
+
+    <script>
+        async function fetchTasks() {
+            const res = await fetch('/tasks');
+            const tasks = await res.json();
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${task.task} 
+                    <button onclick="deleteTask('${task._id}')">Delete</button>
+                `;
+                taskList.appendChild(li);
+            });
+        }
+
+        async function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const task = taskInput.value;
+            if (task) {
+                await fetch('/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ task, completed: false })
+                });
+                taskInput.value = '';
+                fetchTasks();
+            }
+        }
+
+        async function deleteTask(id) {
+            await fetch(`/tasks/${id}`, {
+                method: 'DELETE'
+            });
+            fetchTasks();
+        }
+
+        // Initial fetch
+        fetchTasks();
+    </script>
+</body>
+</html>
