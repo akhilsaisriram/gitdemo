@@ -53,15 +53,12 @@ pipeline {
 
     post {
         always {
-            echo 'Cleaning up...'
-            // Stop containers only if they exist
-            sh '''#!/bin/bash
-            CONTAINERS=$(docker ps -q)
-            if [ -n "$CONTAINERS" ]; then
-                docker stop $CONTAINERS
-            fi
-            docker system prune -f  // Clean up unused Docker resources
-            '''
-        }
+        echo 'Cleaning up...'
+        // Stop running containers (if any)
+        sh 'docker ps -q | xargs docker stop'
+        
+        // Clean up unused Docker resources
+        sh 'docker system prune -f'  // Use -f to force prune without confirmation
+      }
     }
 }
