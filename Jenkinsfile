@@ -14,6 +14,7 @@ pipeline {
                     // Install dependencies, if any
                     echo 'Installing dependencies...'
                     sh 'docker --version' // Verify Docker installation
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'gittoken', url: 'https://github.com/akhilsaisriram/todo.git']])
                 }
             }
         }
