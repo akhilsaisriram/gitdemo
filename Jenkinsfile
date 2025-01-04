@@ -22,9 +22,9 @@ pipeline {
             steps {
                 script {
                     echo 'Stopping any service using port 80...'
-                    // Find processes using port 80 and stop them
+                    // Stop services using port 80
                     sh '''#!/bin/bash
-                    sudo lsof -t -i :80 | xargs sudo kill -9
+                    sudo lsof -t -i :80 | xargs -r sudo kill -9
                     '''
                 }
             }
@@ -54,9 +54,14 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            // You can add any cleanup steps here, e.g., stopping Docker containers
-            sh 'docker ps -q | xargs docker stop'
-            sh 'docker system prune -f' // Clean up unused Docker resources
+            // Stop containers only if they exist
+            sh '''#!/bin/bash
+            CONTAINERS=$(docker ps -q)
+            if [ -n "$CONTAINERS" ]; then
+                docker stop $CONTAINERS
+            fi
+            docker system prune -f  // Clean up unused Docker resources
+            '''
         }
     }
 }
