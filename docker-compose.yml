@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000" # Map host port 5000 to container port 5000
+    environment:
+      - MONGODB_URI=mongodb://db:27017/todo_db # Use the database service as the host
+    depends_on:
+      - db
+
+  db:
+    image: mongo:6.0 # Use the official MongoDB image
+    container_name: mongodb
+    ports:
+      - "27017:27017" # Map MongoDB port
+    volumes:
+      - db_data:/data/db # Persistent storage for MongoDB
+    environment:
+      MONGO_INITDB_DATABASE: todo_db
+
+volumes:
+  db_data:
