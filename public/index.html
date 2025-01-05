@@ -10,10 +10,17 @@
         .todo-list { list-style-type: none; padding: 0; }
         .todo-list li { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
         .todo-list li button { background-color: red; color: white; border: none; padding: 5px; cursor: pointer; }
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <h1>To-Do App new hi webhook 05/01/2025 9:00 am </h1>
+    <a href="hello.html">Go to Welcome Page</a>
+    <br><br>
     <input id="taskInput" type="text" placeholder="New Task" />
     <button onclick="addTask()">Add Task</button>
     <ul id="taskList" class="todo-list"></ul>
